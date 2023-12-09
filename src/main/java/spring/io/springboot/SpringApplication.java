@@ -1,7 +1,10 @@
 package spring.io.springboot;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import spring.io.springboot.config.ConfigProvider;
+import spring.io.springboot.game.GameConsole;
 import spring.io.springboot.game.GameRunner;
 import spring.io.springboot.game.MarioGame;
 
@@ -15,14 +18,7 @@ public class SpringApplication {
         * context.getBean("yourClass.class)
         *
         * */
-        MarioGame marioGame = context.getBean(MarioGame.class);
-        GameRunner runner = new GameRunner(marioGame);
-        runner.run();
-
-        String[] beanDefinitionNames = context.getBeanDefinitionNames();
-        Arrays.stream(beanDefinitionNames).forEach(System.out::println);
-
-
+       context.getBean(GameRunner.class).run();
 
     }
 }
