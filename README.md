@@ -39,7 +39,9 @@ This Repo contains practice and projects built with Spring and Spring Boot Frame
   - Auto-wiring can be done using method call / method parameters.
   - Typically used on methods in Spring Configuration classes.
   - use it if you have to create class instance using custom Business logic or for 3rd party libraries.
+  - side Note: `@Bean` annotation work even if the method which got annotated was not part of `@Configuration` annotated class. 
 - `@ComponentScan` means Spring framework scans packages to find components. If no package name given, Spring scans for current package.
+  - Spring Container looks for beans, based on the class that you pass for applicationContext. If your class has beans getting initialized using `@Bean` annotation, then Spring Container is okay with it. If there are not beans definitions available, you need to give the package where it can look for. This can be done by using `@ComponentScan`
 - `Dependency injection` means identify beans, their dependencies and wire them together (IOC - Inversion of Control)
 - `@Autowired` or `Autowiring` means process of wiring dependencies for a spring bean
 - 
@@ -52,3 +54,27 @@ This Repo contains practice and projects built with Spring and Spring Boot Frame
 - `Field` : no setter or constructor. dependency injected using reflection. 
 - Recommended to use Constructor based injection as dependencies are automatically set when an object is created. Also no need to use `@Autowired` annotation if we are using constructor based injection.
 
+### Lazy & Eager Initialization of Spring Beans
+- By default all Spring Beans are Eager Initialized. 
+  - This means, By the time Spring Context getting initialized all Spring bean in your application will be initialized. 
+- Eager initialization is recommended as errors in configuration are discovered immediately at app startup.
+- However, you can configure beans to be initialized lazily using `@Lazy` annotation.
+  - Not recommended and Not frequently used.
+  - can be used almost everywhere `@Component` and `@Bean` are used.
+  - Can be used on Configuration classes (`@Configuration`)
+    - In this case, all `@Bean` methods will be initialized lazily.
+
+### Spring Bean Scopes
+- Spring beans are defined to be used in a specific scope
+  - `Singleton` - One object instance per Spring IoC Container
+  - `Prototype` - Possibly many object instances per Spring IoC Container
+- By default all Spring beans created are singleton in nature
+- Singleton Beans are stateless and Prototype Beans are stateful
+- Scopes applicable ONLY for web-aware Spring Application Context
+  - `Request` - one object instance per single HTTP request
+  - `Session` - one object instance per user HTTP session
+  - `Application` - one object instance per web application runtime
+  - `Websocket` - one object instance per WebSocket instance
+- Java Singleton vs Spring Singleton
+  - Spring Singleton: One object instance per Spring IoC Container
+  - Java Singleton: One object instance per JVM

@@ -1,4 +1,4 @@
-package spring.io.springboot.game;
+package spring.io.springboot.dev.game;
 
 public interface GameConsole {
     void up();

@@ -1,4 +1,4 @@
-package spring.io.springboot.game;
+package spring.io.springboot.dev.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,4 +1,4 @@
-package spring.io.springboot.dependencyinjection.setter;
+package spring.io.springboot.dev.dependencyinjection.setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

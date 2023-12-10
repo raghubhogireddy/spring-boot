@@ -1,11 +1,10 @@
-package spring.io.springboot.config;
+package spring.io.springboot.dev.config;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
-import spring.io.springboot.game.*;
 
-@Configuration
-@ComponentScan("spring.io.springboot.game")
+//@Configuration
+//@ComponentScan("spring.io.springboot.dev.game")
 public class ConfigProvider {
     //Configure things that we want Spring to manage
 
