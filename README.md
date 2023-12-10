@@ -44,7 +44,9 @@ This Repo contains practice and projects built with Spring and Spring Boot Frame
   - Spring Container looks for beans, based on the class that you pass for applicationContext. If your class has beans getting initialized using `@Bean` annotation, then Spring Container is okay with it. If there are not beans definitions available, you need to give the package where it can look for. This can be done by using `@ComponentScan`
 - `Dependency injection` means identify beans, their dependencies and wire them together (IOC - Inversion of Control)
 - `@Autowired` or `Autowiring` means process of wiring dependencies for a spring bean
-- 
+- `@Configuration` indicates that a class declares one or more `@Bean` methods and may be processed by Spring container to generate bean definitions.
+
+
 ### Question  : Spring is managing objects and also performing auto-wiring
 
 
@@ -78,3 +80,24 @@ This Repo contains practice and projects built with Spring and Spring Boot Frame
 - Java Singleton vs Spring Singleton
   - Spring Singleton: One object instance per Spring IoC Container
   - Java Singleton: One object instance per JVM
+
+### Jakarta Contexts & Dependency Injection (CDI)
+- CDI is a specification (Interface)
+  - Spring framework implements CDI
+- Important Inject API Annotations
+  - `@Inject` (~ `@Autowired` in Spring)
+  - `@Named` (~ `@Component` in Spring)
+  - `@Qualifier`
+  - `@Scope`
+  - `@Singleton`
+
+### Spring Stereotype Annotations
+- `@Component` - Generic annotation applicable for any class
+  - Base for all Spring Stereotype Annotations
+  - Specializations of `@Component`
+    - `@Service` - indicated that an annotated class has business logic
+    - `@Controller` - indicates that an annotated class is a "Web Controller". Used to define controllers in your web app and REST API
+    - `@Repository` - indicates that an annotated class in used to retrieve and/or manipulate data in database.
+  - Recommended to use specific annotation as you are giving more information to the framework about your intentions
+  - You can use AOP at a later point to add additional behavior
+    - Example: For `@Repository` Spring automatically wires JDBC Exception translation features
