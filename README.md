@@ -45,6 +45,13 @@ This Repo contains practice and projects built with Spring and Spring Boot Frame
 - `Dependency injection` means identify beans, their dependencies and wire them together (IOC - Inversion of Control)
 - `@Autowired` or `Autowiring` means process of wiring dependencies for a spring bean
 - `@Configuration` indicates that a class declares one or more `@Bean` methods and may be processed by Spring container to generate bean definitions.
+- `@SpringBootApplication` is meta-annotation that combines three essential annotations into one
+  - `@Configuration`
+  - `@ComponentScan`
+  - `@EnableAutoConfiguration` enables Spring Boot automatic configuration mechanism. It automatically configures various beans and setting based on project's classpath dependencies and properties
+- `@Transactional` used to manage transactions and can be applied to class or method level. When a method is annotated with @Transactional, it indicates that the particular method should be executed within the context of a transaction. Spring will automatically manage the transaction lifecycle, including starting the transaction, committing the transaction, and rolling back the transaction if an exception occurs.
+- `@PersistanceContext` annotation is used to inject an EntityManager into a Spring bean. The EntityManager is used to manage the persistence of entities. annotation can be used on any field of a Spring bean. The field must be of type EntityManager or a subclass of EntityManager.
+- `@Entity` annotation in Spring Boot is used to mark a class as a JPA entity. This means that the class will be mapped to a table in the database. The `@Entity` annotation is used at the class level and is required for any class that you want to persist to the database.
 
 
 ### Question  : Spring is managing objects and also performing auto-wiring
