@@ -1,8 +1,5 @@
 package spring.io.dev.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.*;
-
 //@Configuration
 //@ComponentScan("spring.io.springboot.dev.game")
 public class ConfigProvider {

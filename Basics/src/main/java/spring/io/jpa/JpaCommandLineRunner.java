@@ -3,8 +3,8 @@ package spring.io.jpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import spring.io.jpa.model.Course;
 import spring.io.jpa.dao.CourseJpaRepository;
+import spring.io.jpa.model.Course;
 
 @Component
 public class JpaCommandLineRunner implements CommandLineRunner {
