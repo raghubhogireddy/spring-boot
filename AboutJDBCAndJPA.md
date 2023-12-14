@@ -18,3 +18,6 @@
 - Hibernate is one of the popular implementations for JPA
 - Using Hibernate directly would result in a lock into Hibernate
   - There are other JPA implementations (Toplink etc..)
+
+### Annotations
+
