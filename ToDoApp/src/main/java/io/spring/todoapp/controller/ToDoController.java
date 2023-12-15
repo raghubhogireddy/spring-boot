@@ -1,33 +1,37 @@
 package io.spring.todoapp.controller;
 
+import io.spring.todoapp.service.AuthService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ToDoController {
-    
-    @RequestMapping("/hello")
-    @ResponseBody
-    public String hello() {
-        return "Hello! What are you learning today ?";
+    private Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private final AuthService service;
+
+    public ToDoController(AuthService service) {
+        this.service = service;
     }
     
-    @RequestMapping("/hello-html")
-    @ResponseBody
-    public String helloHtml() {
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("<html>");
-        stringBuffer.append("<head>");
-        stringBuffer.append("<title>");
-        stringBuffer.append("page in Html");
-        stringBuffer.append("</title>");
-        stringBuffer.append("</head>");
-        stringBuffer.append("<body>");
-        stringBuffer.append("Body for Html page");
-        stringBuffer.append("</body>");
-        stringBuffer.append("</html>");
-        return stringBuffer.toString();
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginJsp() {
+        return "login";
+    }
+    
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String welcomeJsp(@RequestParam String name, @RequestParam String password, ModelMap model) {
+        if (service.authenticate(name, password)) {
+            model.put("name", name);
+            return "welcome";
+        }else {
+            model.put("errorMessage", "Invalid Credentials! Please try again");
+            return "login";
+        }
     }
 }
