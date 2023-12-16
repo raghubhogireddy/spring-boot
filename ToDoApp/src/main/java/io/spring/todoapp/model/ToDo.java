@@ -1,20 +1,24 @@
 package io.spring.todoapp.model;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class ToDo {
     private int id;
     private String userName;
+    
+    @Size(min = 10, message = "Enter atleast 10 characters")
     private String description;
     private LocalDate date;
-    private boolean isCompleted;
+    private boolean completed;
 
-    public ToDo(int id, String userName, String description, LocalDate date, boolean isCompleted) {
+    public ToDo(int id, String userName, String description, LocalDate date, boolean completed) {
         this.id = id;
         this.userName = userName;
         this.description = description;
         this.date = date;
-        this.isCompleted = isCompleted;
+        this.completed = completed;
     }
 
     public void setId(int id) {
@@ -34,7 +38,7 @@ public class ToDo {
     }
 
     public void setCompleted(boolean completed) {
-        isCompleted = completed;
+        this.completed = completed;
     }
 
     public int getId() {
@@ -54,7 +58,7 @@ public class ToDo {
     }
 
     public boolean isCompleted() {
-        return isCompleted;
+        return completed;
     }
 
     @Override
@@ -64,7 +68,7 @@ public class ToDo {
         sb.append(", userName='").append(userName).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", date=").append(date);
-        sb.append(", isCompleted=").append(isCompleted);
+        sb.append(", isCompleted=").append(completed);
         sb.append('}');
         return sb.toString();
     }
