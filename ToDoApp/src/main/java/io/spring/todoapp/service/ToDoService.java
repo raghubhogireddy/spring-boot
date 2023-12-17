@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -20,6 +22,7 @@ public class ToDoService {
     }
     
     public List<ToDo> findByUser(String userName) {
+        Collections.sort(toDos);
         return toDos;
     }
     

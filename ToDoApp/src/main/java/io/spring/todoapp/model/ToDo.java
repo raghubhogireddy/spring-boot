@@ -4,20 +4,20 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
-public class ToDo {
+public class ToDo implements Comparable<ToDo>{
     private int id;
     private String userName;
     
     @Size(min = 10, message = "Enter atleast 10 characters")
     private String description;
-    private LocalDate date;
+    private LocalDate targetDate;
     private boolean completed;
 
-    public ToDo(int id, String userName, String description, LocalDate date, boolean completed) {
+    public ToDo(int id, String userName, String description, LocalDate targetDate, boolean completed) {
         this.id = id;
         this.userName = userName;
         this.description = description;
-        this.date = date;
+        this.targetDate = targetDate;
         this.completed = completed;
     }
 
@@ -33,8 +33,8 @@ public class ToDo {
         this.description = description;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTargetDate(LocalDate targetDate) {
+        this.targetDate = targetDate;
     }
 
     public void setCompleted(boolean completed) {
@@ -53,8 +53,8 @@ public class ToDo {
         return description;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getTargetDate() {
+        return targetDate;
     }
 
     public boolean isCompleted() {
@@ -67,9 +67,14 @@ public class ToDo {
         sb.append("id=").append(id);
         sb.append(", userName='").append(userName).append('\'');
         sb.append(", description='").append(description).append('\'');
-        sb.append(", date=").append(date);
+        sb.append(", date=").append(targetDate);
         sb.append(", isCompleted=").append(completed);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(ToDo o) {
+        return Integer.compare(this.id, o.getId());
     }
 }

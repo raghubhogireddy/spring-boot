@@ -30,23 +30,7 @@ public class ToDoController {
         this.toDoService = toDoService;
     }
     
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginJsp() {
-        return "login";
-    }
-    
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String welcomeJsp(@RequestParam String name, @RequestParam String password, ModelMap model) {
-        if (authService.authenticate(name, password)) {
-            model.put("name", name);
-            return "welcome";
-        }else {
-            model.put("errorMessage", "Invalid Credentials! Please try again");
-            return "login";
-        }
-    }
-    
-    @RequestMapping("list-todos")
+    @RequestMapping(value = "list-todos", method = RequestMethod.GET)
     public String listAllToDos(ModelMap modelMap) {
         List<ToDo> toDos = toDoService.findByUser("");
         modelMap.put("todos", toDos);
@@ -54,7 +38,7 @@ public class ToDoController {
     } 
     
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
-    public String getToDo(ModelMap modelMap) {
+    public String addToDo(ModelMap modelMap) {
         ToDo toDo = new ToDo(0, (String) modelMap.get("name"), "", LocalDate.now().plusYears(1), false);
         modelMap.put("toDo", toDo);
         return "todo";
@@ -63,9 +47,9 @@ public class ToDoController {
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
     public String addToDo(ModelMap modelMap, @Valid ToDo toDo, BindingResult result) {
         if (result.hasErrors()) 
-            return "todo"; // error message not visible if we redirect to /add-todo
+            return "todo"; // "error message not visible if we redirect to /add-todo endpoint"
         String username = (String) modelMap.get("name");
-        toDoService.addToDo(username, toDo.getDescription(), LocalDate.now().plusMonths(4), false);
+        toDoService.addToDo(username, toDo.getDescription(), toDo.getTargetDate(), false);
         return "redirect:list-todos";
     }
     
