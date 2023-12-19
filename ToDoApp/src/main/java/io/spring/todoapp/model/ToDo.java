@@ -1,10 +1,17 @@
 package io.spring.todoapp.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
+@Entity
 public class ToDo implements Comparable<ToDo>{
+    
+    @Id
+    @GeneratedValue
     private int id;
     private String userName;
     
@@ -12,6 +19,9 @@ public class ToDo implements Comparable<ToDo>{
     private String description;
     private LocalDate targetDate;
     private boolean completed;
+
+    public ToDo() {
+    }
 
     public ToDo(int id, String userName, String description, LocalDate targetDate, boolean completed) {
         this.id = id;

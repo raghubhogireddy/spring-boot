@@ -1,12 +1,14 @@
 package io.spring.todoapp.controller;
 
 import io.spring.todoapp.model.ToDo;
+import io.spring.todoapp.repository.ToDoRepository;
 import io.spring.todoapp.service.AuthService;
 import io.spring.todoapp.service.ToDoService;
 import jakarta.validation.Valid;
-import org.apache.catalina.LifecycleState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,48 +22,54 @@ import java.util.List;
 
 @Controller
 @SessionAttributes("name")
-public class ToDoController {
+public class ToDoControllerJpa {
     private Logger LOGGER = LoggerFactory.getLogger(getClass());
-    private final AuthService authService;
-    private final ToDoService toDoService;
+    private final ToDoRepository toDoRepository;
 
-    public ToDoController(AuthService authService, ToDoService toDoService) {
-        this.authService = authService;
-        this.toDoService = toDoService;
+    public ToDoControllerJpa(ToDoRepository toDoRepository) {
+        this.toDoRepository = toDoRepository;
     }
-    
+
     @RequestMapping(value = "list-todos", method = RequestMethod.GET)
     public String listAllToDos(ModelMap modelMap) {
-        List<ToDo> toDos = toDoService.findByUser("");
+        String userName = getLoggedInUser(modelMap);
+        List<ToDo> toDos = toDoRepository.findByUserName(userName);
         modelMap.put("todos", toDos);
         return "listToDos";
-    } 
-    
+    }
+
+    private static String getLoggedInUser(ModelMap modelMap) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        modelMap.put("name", authentication.getName());
+        return authentication.getName();
+    }
+
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String addToDo(ModelMap modelMap) {
-        ToDo toDo = new ToDo(0, (String) modelMap.get("name"), "", LocalDate.now().plusYears(1), false);
+        ToDo toDo = new ToDo(0, getLoggedInUser(modelMap), "", LocalDate.now().plusYears(1), false);
         modelMap.put("toDo", toDo);
         return "todo";
     }
-    
+
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
     public String addToDo(ModelMap modelMap, @Valid ToDo toDo, BindingResult result) {
-        if (result.hasErrors()) 
+        if (result.hasErrors())
             return "todo"; // "error message not visible if we redirect to /add-todo endpoint"
-        String username = (String) modelMap.get("name");
-        toDoService.addToDo(username, toDo.getDescription(), toDo.getTargetDate(), false);
+        String username = getLoggedInUser(modelMap);
+        toDo.setUserName(username);
+        toDoRepository.save(toDo);
         return "redirect:list-todos";
     }
-    
+
     @RequestMapping(value = "delete-todo", method = RequestMethod.GET)
     public String deleteToDo(@RequestParam int id) {
-        toDoService.deleteToDo(id);
+        toDoRepository.deleteById(id);
         return "redirect:list-todos";
     }
-    
+
     @RequestMapping(value = "update-todo", method = RequestMethod.GET)
     public String updateToDo( ModelMap modelMap, @RequestParam int id) {
-        ToDo toDo = toDoService.findById(id);
+        ToDo toDo = toDoRepository.findById(id).get();
         modelMap.put("toDo", toDo);
         return "todo";
     }
@@ -71,11 +79,9 @@ public class ToDoController {
         if (result.hasErrors()) {
             return "redirect:update-todo";
         }
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUser(modelMap);
         toDo.setUserName(username);
-        toDoService.updateToDo(toDo);
+        toDoRepository.save(toDo);
         return "redirect:list-todos";
     }
-    
-    
 }
