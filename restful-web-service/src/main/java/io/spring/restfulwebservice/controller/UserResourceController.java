@@ -5,7 +5,10 @@ import io.spring.restfulwebservice.exception.UserNotFoundException;
 import io.spring.restfulwebservice.model.HelloWorld;
 import io.spring.restfulwebservice.model.User;
 import io.spring.restfulwebservice.service.UserDaoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,15 +32,18 @@ public class UserResourceController {
     }
 
     @GetMapping("/users/{id}")
-    public User findUser(@PathVariable long id) {
+    public EntityModel<User> findUser(@PathVariable long id) {
         User user = userDaoService.findUser(id);
         if (user == null)
             throw  new UserNotFoundException("id: " + id);
-        return user;
+        EntityModel<User> entityModel = EntityModel.of(user);
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAllUsers());
+        entityModel.add(linkBuilder.withRel("all-users"));
+        return entityModel;
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         User savedUser = userDaoService.createUser(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -46,33 +52,11 @@ public class UserResourceController {
         return ResponseEntity.created(location).build();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @RequestMapping(path = "/hello-world", method = RequestMethod.GET)
-    public String helloWorld() {
-        return "Hello World";
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable long id) {
+        userDaoService.deleteUserById(id);
     }
 
-    @GetMapping(path = "/hello-world-bean")
-    public HelloWorld helloWorldBean() {
-        return new HelloWorld("Hello World");
-    }
-
-    @GetMapping(path = "/hello-world/path-variable/{name}")
-    public HelloWorld helloWorldVariable(@PathVariable String name) {
-        return new HelloWorld(String.format("Hello World, %s", name));
-    }
 
 
 }
