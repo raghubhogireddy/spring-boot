@@ -11,6 +11,9 @@ docker run --detach
 --publish 3306:3306 
 mysql:8-oracle
 ```
+```docker run --detach --env MYSQL_ROOT_PASSWORD=dummypassword --env MYSQL_USER=social-media-user --env MYSQL_PASSWORD=dummypassword  --env MYSQL_DATABASE=social-media-database --publish 3306:3306 mysql
+```
+
 - application.properties configuration
 
 ```

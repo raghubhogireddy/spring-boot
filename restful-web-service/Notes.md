@@ -69,4 +69,29 @@
   - Custom Format and Implementation - Difficult to maintain
   - User Standard Implementation
     - HAL (JSON Hypertext Application Language) : Simple format that gives a consistent and easy way to hyperlink between resources in your API
-    - **Spring HATEOAS**: Generates HAL responsesf with hyperlinks to resources
+    - **Spring HATEOAS**: Generates HAL responses with hyperlinks to resources
+
+## Customizing REST API Responses - Filtering & more..
+- Serialization: Convert object to stream (ex: JSON)
+  - Customize field names in response
+    - `@JsonProperty`
+  - Return only selected fields
+    - Filtering
+      - Two Types
+        - **Static Filtering** : Same filtering for a bean across different REST API
+          - `@JsonIgnoreProperties` - class level Annotation 
+            - Ex : `@JsonIgnoreProperties({"field1", "field2"})`
+          - `@JsonIgnore` - field level Annotation
+        - **Dynamic Filtering** : Customize filtering for a bean for specific REST API
+          - `@JsonFilter` with Filter provider
+
+## Explore REST API using HAL Explorer
+- HAL (JSOn Hypertext Application Language)
+  - Simple format that gives a consistent and easy way to hyperlink between resources in your API
+- HAL Explorer
+  - An API explorer for Restful Hypermedia APIs using HAL
+  - Enable non-Tech teams to play with APIs
+- Spring Boot HAL Explorer
+  - Auto-configures HAl Explorer for Spring Boot Projects
+  - spring-data-rest-hal-explorer
+- Explorer can be accessed from the URI `/explorer/index.html`

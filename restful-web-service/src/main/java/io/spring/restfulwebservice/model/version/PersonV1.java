@@ -1,6 +1,9 @@
 package io.spring.restfulwebservice.model.version;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PersonV1 {
+    @JsonProperty("user_name")
     private String name;
 
     public PersonV1(String name) {
