@@ -40,3 +40,16 @@
       - `import FirstComponent from './components/FirstComponent';`
     - **Named import**
       - `import { FourthComponent } from './components/FourthComponent';`
+
+## State in React
+- **State**: Built-in React object used to contain data or information about the component
+- **(REMEMBER)** In earlier versions of React, Only Class Components can have state
+  - And implementing state was very complex!
+- Hooks were introduced in React 16.8
+  - Hooks are very easy to use
+  - **useState** hook allows adding state to Function Component
+    - useState return two things
+      - 1. Current State
+        2. A function to update state
+  - Each instance of component has it's own state
+  - 

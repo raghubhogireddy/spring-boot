@@ -1,21 +1,12 @@
 import './App.css';
-import FirstComponent from './components/FirstComponent';
-import SecondComponent from './components/SecondComponent';
-import ThirdComponent from './components/ThirdComponent';
-import FourthComponent from './components/FourthComponent';
-import LearningJavaScript from './components/LearningJavaScript';
+import Counter from './components/counter/Counter';
 
 function App() {
   return (
     <div className="App"> 
-      <FirstComponent />
-      <SecondComponent />
-      <ThirdComponent />
-      <FourthComponent />
-      <LearningJavaScript />
+        <Counter />
     </div>
   );
 }
-
 
 export default App;
