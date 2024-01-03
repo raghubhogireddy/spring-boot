@@ -1,12 +1,20 @@
 
 import { useState } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom';
 import './ToDoApp.css';
 
 export default function ToDoApp() {
     return(
         <div className="ToDoApp">
-            <LoginComponent />
-            {/* <WelcomeComponent /> */}
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<LoginComponent />} />
+                    <Route path='/login' element={<LoginComponent />} />
+                    <Route path='/welcome/:username' element={<WelcomeComponent />} />
+                    <Route path='/todos' element={<ListTodosComponent/>} />
+                    <Route path='*' element={<ErrorComponent />} />
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }
@@ -17,6 +25,8 @@ function LoginComponent() {
     const[password, setPassword] = useState('')
     const[showSuccessMessage, setSuccessMessage] = useState(false)
     const[showErrorMessage, setErrorMessage] = useState(false)
+
+    const navigate = useNavigate()
 
 
 
@@ -32,6 +42,7 @@ function LoginComponent() {
         if(username === 'admin' && password === 'dummy'){
             setSuccessMessage(true)
             setErrorMessage(false)
+            navigate(`/welcome/${username}`)
         }else {
             setSuccessMessage(false)
             setErrorMessage(true)
@@ -57,8 +68,8 @@ function LoginComponent() {
 
     return(
         <div className="Login">
-            <SuccessMessageComponent />
-            <ErrorMessageComponent />
+            {showSuccessMessage && <div className="successMessage">Authenticated Successfully</div>}
+            {showErrorMessage && <div className="errorMessage">Authentication Failed. Please check your credentials</div>}
             <div className="LoginForm">
                 <div>
                     <label>User Name</label>
@@ -77,9 +88,63 @@ function LoginComponent() {
 }
 
 function WelcomeComponent() {
+
+    const {username} = useParams()
+
+    console.log(username)
+
     return(
         <div className="Welcome">
-            Welcome Component
+            Welcome, {username}
+        </div>
+    );
+}
+
+function ErrorComponent() {
+    return(
+        <div className="Error">
+            <h1>Sorry, Page doesn't Exist.</h1>
+        </div>
+    );
+}
+
+
+function ListTodosComponent() {
+
+    const todos = [
+        {id:1, description: 'Learn AWS'},
+        {id:2, description: 'Learn AWS'},
+        {id:3, description: 'Learn AWS'},
+        {id:4, description: 'Learn AWS'},
+
+    ]
+
+
+    return(
+        <div className="ListTodos">
+            <h1>Things to Do</h1>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>id</td>
+                            <td>description</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            todos.map(
+                                todo => (
+                                    <tr key={todo.id}>
+                                        <td>{todo.id}</td>
+                                        <td>{todo.description}</td>
+                                    </tr>
+                                )
+                            )
+                        }   
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }
