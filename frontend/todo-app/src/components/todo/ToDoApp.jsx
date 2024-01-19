@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import './ToDoApp.css';
 import LoginComponent from "./LoginComponent";
 import LogoutComponent from "./LogoutComponent";
@@ -6,7 +6,7 @@ import HeaderComponent from "./HeaderComponent";
 import WelcomeComponent from "./WelcomeComponent";
 import ListTodosComponent from "./ListTodosComponent";
 import ErrorComponent from "./ErrorComponent";
-import AuthProvider from "./security/AuthContext";
+import AuthProvider, { useAuth } from "./security/AuthContext";
 
 export default function ToDoApp() {
     return(
@@ -17,13 +17,33 @@ export default function ToDoApp() {
                     <Routes>
                         <Route path='/' element={<LoginComponent />} />
                         <Route path='/login' element={<LoginComponent />} />
-                        <Route path='/logout' element={<LogoutComponent />} />
-                        <Route path='/welcome/:username' element={<WelcomeComponent />} />
-                        <Route path='/todos' element={<ListTodosComponent/>} />
+                        <Route path='/logout' element={
+                            <AuthenticatedRoute> 
+                                <LogoutComponent />
+                            </AuthenticatedRoute>
+                        } />
+                        <Route path='/welcome/:username' element={
+                            <AuthenticatedRoute>
+                                <WelcomeComponent />
+                            </AuthenticatedRoute>
+                        
+                        } />
+                        <Route path='/todos' element={
+                            <AuthenticatedRoute>
+                                <ListTodosComponent/>
+                            </AuthenticatedRoute>            
+                        } />
                         <Route path='*' element={<ErrorComponent />} />
                     </Routes>
                 </BrowserRouter>
             </AuthProvider>
         </div>
     );
+}
+
+function AuthenticatedRoute({childern}) {
+    const authContext = useAuth() 
+    if(authContext.isAuthenticated)
+        return childern
+    return <Navigate to="/"/>
 }

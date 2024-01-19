@@ -3,7 +3,12 @@ import { useAuth} from "./security/AuthContext";
 
 function HeaderComponent() {
     
-    console.log(useAuth().number);
+    const authContext = useAuth()
+    const isAuthenticated = authContext.isAuthenticated
+
+    function logout() {
+        authContext.logout()
+    }
     
     return(
         <header className="border-bottom border-light border-5 mb-5 p-2">
@@ -13,13 +18,17 @@ function HeaderComponent() {
                         <a className="navbar-brand ms-2 fs-2 fw-bold text-black" href="https://www.google.com">ToDo App</a>
                         <div className="collapse navbar-collapse">
                             <ul className="navbar-nav">
-                                <li className="nav-item fs-5"><Link className="nav-link" to="/welcome/admin">Home</Link></li>
-                                <li className="nav-item fs-5"><Link className="nav-link" to="/todos">Todos</Link></li>
+                                <li className="nav-item fs-5">
+                                    {isAuthenticated && <Link className="nav-link" to="/welcome/admin">Home</Link>}</li> 
+                                <li className="nav-item fs-5">
+                                {isAuthenticated && <Link className="nav-link" to="/todos">Todos</Link> } </li>
                             </ul>
                         </div>
                         <ul className="navbar-nav">
-                            <li className="nav-item fs-5"><Link className="nav-link" to="/login">Login</Link></li>
-                            <li className="nav-item fs-5"><Link className="nav-link" to="/logout">Logout</Link></li>
+                            <li className="nav-item fs-5">
+                            {!isAuthenticated && <Link className="nav-link" to="/login">Login</Link> } </li>
+                            <li className="nav-item fs-5">
+                            {isAuthenticated && <Link className="nav-link" to="/logout" onClick={ logout }>Logout</Link> } </li>
                         </ul>
                     </nav>
                 </div>
