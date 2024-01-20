@@ -6,8 +6,6 @@ export const useAuth = () => useContext(AuthContext)
 
 function AuthProvider({children}) {
     const [isAuthenticated, setAuthenticated] = useState(false);
-    
-    const valueTobeShared = {isAuthenticated, login, logout}
 
     function login(username, password) {
         if (username === 'admin' && password === 'dummy') {
@@ -26,7 +24,7 @@ function AuthProvider({children}) {
 
     
     return (
-        <AuthContext.Provider value={ valueTobeShared }>
+        <AuthContext.Provider value={ {isAuthenticated, login, logout} }>
             {children}
         </AuthContext.Provider>
     );

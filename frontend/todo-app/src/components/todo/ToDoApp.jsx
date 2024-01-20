@@ -23,15 +23,13 @@ export default function ToDoApp() {
                             </AuthenticatedRoute>
                         } />
                         <Route path='/welcome/:username' element={
-                            <AuthenticatedRoute>
+                            
                                 <WelcomeComponent />
-                            </AuthenticatedRoute>
+                        
                         
                         } />
                         <Route path='/todos' element={
-                            <AuthenticatedRoute>
-                                <ListTodosComponent/>
-                            </AuthenticatedRoute>            
+                                <ListTodosComponent/>         
                         } />
                         <Route path='*' element={<ErrorComponent />} />
                     </Routes>
@@ -43,7 +41,9 @@ export default function ToDoApp() {
 
 function AuthenticatedRoute({childern}) {
     const authContext = useAuth() 
-    if(authContext.isAuthenticated)
+    if(authContext.isAuthenticated) {
+        console.log(authContext.isAuthenticated)
         return childern
+    } 
     return <Navigate to="/"/>
 }
