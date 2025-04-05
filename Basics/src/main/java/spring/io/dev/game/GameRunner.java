@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class GameRunner {
 
     @Autowired
-    @Qualifier("contraGame")
+    //@Qualifier("contraGame")
     GameConsole game;
 
 
